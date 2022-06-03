@@ -11,8 +11,7 @@ from src.infra.dtos.db_base import DbBaseModel
 class CognitoUserDTO(DbBaseModel):
     userAttributes: List[dict] = []
     userSub: str
-    customAttributes = ['accessLevel', 'cpfRne', 'ra', 'role',
-                        'acceptedTerms', 'acceptedNotific', 'socialName', 'certWithSocialName']
+    customAttributes = ['name', 'ra', 'year', 'course', 'image']
     changedFieldNames = {
         'acceptedNotific': 'acceptedNotifications',
         'certWithSocialName': 'certificateWithSocialName'
@@ -34,17 +33,12 @@ class CognitoUserDTO(DbBaseModel):
 
     def toEntity(self):
         return User(
-        name=self.name,
-        cpfRne=self.cpfRne,
-        ra=self.ra,
-        email=self.email,
-        role=self.role,
-        accessLevel=self.accessLevel,
-        acceptedTerms=self.acceptedTerms,
-        acceptedNotifications=self.acceptedNotific,
-        socialName=self.socialName,
-        id=self.userSub if self.userSub else None,
-        certificateWithSocialName=self.certWithSocialName if self.certWithSocialName is not None else None
+            id=self.id,
+            name=self.name,
+            ra=self.ra,
+            year=self.year,
+            course= self.course,
+            image=self.image
         )
 
     @staticmethod
