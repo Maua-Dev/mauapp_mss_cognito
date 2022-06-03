@@ -24,11 +24,11 @@ class UserRepositoryCognito(IUserRepository):
         self._userPoolId = userPoolId
 
 
-    async def getUserByCpfRne(self, cpfRne: int) -> User:
+    async def getUserById(self, id: int) -> User:
         try:
             response = self._client.admin_get_user(
                 UserPoolId=self._userPoolId,
-                Username=str(cpfRne)
+                Username=str(id)
             )
             return CognitoUserDTO.fromKeyValuePair(data=response["UserAttributes"]).toEntity()
         except ClientError as e:
@@ -36,7 +36,7 @@ class UserRepositoryCognito(IUserRepository):
             if errorCode == 'NotAuthorizedException':
                 raise InvalidCredentials("You don`t have permission to access this resource")
             elif errorCode == 'UserNotFoundException':
-                raise NonExistentUser(f"{cpfRne}")
+                raise NonExistentUser(f"{id}")
             else:
                 raise
 
@@ -106,7 +106,7 @@ class UserRepositoryCognito(IUserRepository):
 
             self._client.sign_up(
                 ClientId=self._clientId,
-                Username=str(user_dto.cpfRne),
+                Username=str(user_dto.id),
                 Password=user_dto.password,
                 UserAttributes=user_dto.userAttributes,
             )
@@ -120,10 +120,10 @@ class UserRepositoryCognito(IUserRepository):
                 raise EntityError(e.response.get('Error').get('Message'))
             elif errorCode == 'AliasExistsException':
                 raise UserAlreadyExists("Alias already exists")
-            elif errorCode == 'UsernameExistsException':
-                raise UserAlreadyExists(f"{user.cpfRne}")
-            elif errorCode == 'UserNotFoundException':
-                raise NonExistentUser(f"{user.cpfRne}")
+#            elif errorCode == 'UsernameExistsException':
+#                raise UserAlreadyExists(f"{user.cpfRne}")
+#            elif errorCode == 'UserNotFoundException':
+#                raise NonExistentUser(f"{user.cpfRne}")
             elif errorCode == "ResourceNotFoundException":
                 raise UnexpectedError("Create User", e.response.get('Error').get('Message'))
             else:

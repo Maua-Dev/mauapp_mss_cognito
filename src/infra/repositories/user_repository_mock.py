@@ -42,7 +42,7 @@ class UserRepositoryMock(IUserRepository):
         else:
             return None
 
-    async def getUserByCpfRne(self, cpfRne: str) -> User:
+    async def getUserById(self, cpfRne: str) -> User:
         user: User = None
         for userx in self._confirmedUsers:
             if userx.cpfRne == cpfRne:
@@ -100,7 +100,7 @@ class UserRepositoryMock(IUserRepository):
             cont += 1
 
     async def loginUser(self, cpfRne: str, password: str) -> dict:
-        u = await self.getUserByCpfRne(cpfRne)
+        u = await self.getUserById(cpfRne)
         if u is None:
             return None
         if u.password == password:
@@ -119,7 +119,7 @@ class UserRepositoryMock(IUserRepository):
             return None
 
         cpfRne = splitToken[1]
-        user = await self.getUserByCpfRne(cpfRne)
+        user = await self.getUserById(cpfRne)
         if user is None:
             return None
         data = user.dict()
@@ -132,14 +132,14 @@ class UserRepositoryMock(IUserRepository):
             return None, None
         if splitToken[0] != "validRefreshToken":
             return None, None
-        if await self.getUserByCpfRne(splitToken[1]) is None:
+        if await self.getUserById(splitToken[1]) is None:
             return None, None
         return "validAccessToken-" + splitToken[1], refreshToken
 
     async def changePassword(self, login: str) -> bool:
         user = None
         if login.isdigit():
-            user = await self.getUserByCpfRne(login)
+            user = await self.getUserById(login)
         if user:
             return True
 
@@ -160,7 +160,7 @@ class UserRepositoryMock(IUserRepository):
         # Update user password
         user = None
         if login.isdigit():
-            user = await self.getUserByCpfRne(login)
+            user = await self.getUserById(login)
         if user:
             user.password = newPassword
             return True
@@ -171,7 +171,7 @@ class UserRepositoryMock(IUserRepository):
         return False
 
     async def resendConfirmationCode(self, cpfRne: str) -> bool:
-        user = await self.getUserByCpfRne(cpfRne)
+        user = await self.getUserById(cpfRne)
 
         if user is None:
             raise NonExistentUser(f"{cpfRne}")
