@@ -27,8 +27,6 @@ class UpdateUserController:
 
             userData = {
                 "name": req.body.get('name'),
-                "socialName": req.body.get('social_name'),
-                "certificateWithSocialName": req.body.get('certificate_with_social_name'),
             }
 
             await self._updateUserUsecase(userData, accessToken)

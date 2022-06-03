@@ -3,14 +3,14 @@ from src.adapters.helpers.http_models import HttpRequest, HttpResponse, BadReque
 from src.adapters.viewmodels.get_user_model import GetUserModel
 from src.domain.entities.user import User
 from src.domain.errors.errors import UnexpectedError, NoItemsFound, NonExistentUser
-from src.domain.usecases.get_user_by_cpfrne_usecase import GetUserByCpfRneUsecase
+from src.domain.usecases.get_user_by_id_usecase import GetUserByIdUsecase
 from src.domain.repositories.user_repository_interface import IUserRepository
 
 
-class GetUserByCpfRneController:
+class GetUserByIdRneController:
 
     def __init__(self, userRepository: IUserRepository) -> None:
-        self._getAllUserByCpfRneUseCase = GetUserByCpfRneUsecase(userRepository)
+        self._getAllUserByCpfRneUseCase = GetUserByIdUsecase(userRepository)
 
     async def __call__(self, req: HttpRequest) -> HttpResponse:
 
@@ -18,10 +18,10 @@ class GetUserByCpfRneController:
             return BadRequest('Missing parameter.')
 
         try:
-            if  type(req.query['cpfRne']) != int:
-                return BadRequest('Invalid parameter. (Cpf value should be Int) ')
+            if  type(req.query['id']) != int:
+                return BadRequest('Invalid parameter. (id value should be Int) ')
 
-            user = await self._getAllUserByCpfRneUseCase(int(req.query['cpfRne']))
+            user = await self._getAllUserByCpfRneUseCase(int(req.query['id']))
             response = GetUserModel.parse_obj(user)
 
             if user is None:

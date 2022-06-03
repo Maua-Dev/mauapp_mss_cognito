@@ -21,12 +21,12 @@ class CreateUserController:
             return BadRequest('Missing body.')
 
         try:
-            req.body['cpfRne'] = req.body.get('cpf_rne').replace('.', '').replace('-', '').replace(' ', '') if req.body.get('cpf_rne') else None
-            req.body['accessLevel'] = req.body.get('access_level')
-            req.body['acceptedTerms'] = req.body.get('accepted_terms')
-            req.body['acceptedNotifications'] = req.body.get('accepted_notifications')
-            req.body['socialName'] = req.body.get('social_name')
-            req.body['email'] = req.body.get('email').replace(' ', '') if req.body.get('email') else None
+            req.body['id'] = req.body.get('id')
+            req.body['name'] = req.body.get('name')
+            req.body['ra'] = req.body.get('ra')
+            req.body['year'] = req.body.get('year')
+            req.body['course'] = req.body.get('course')
+            req.body['image'] = req.body.get('image')
 
             # removes keys that have no value
             req.body = {k: v for k, v in req.body.items() if v is not None}

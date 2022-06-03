@@ -14,10 +14,10 @@ class DeleteUserController:
             return BadRequest('No parameters allowed.')
         if req.body is None:
             return BadRequest('Missing body.')
-        if 'cpfRne' not in req.body:
-            return BadRequest('Missing Cpf Rne.')
+        if 'id' not in req.body:
+            return BadRequest('Missing id.')
         try:
-            await self._deleteUserUsecase(req.body['cpfRne'])
+            await self._deleteUserUsecase(req.body['id'])
             return Ok('User deleted.')
 
         except NonExistentUser as e:
