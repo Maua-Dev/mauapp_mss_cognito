@@ -6,7 +6,7 @@ from src.domain.entities.user import User
 class IUserRepository(ABC):
 
     @abstractmethod
-    async def getUserByCpfRne(self, cpfRne: int) -> User:
+    async def getUserById(self, id: int) -> User:
         pass
 
     @abstractmethod
