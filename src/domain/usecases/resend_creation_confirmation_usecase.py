@@ -8,10 +8,7 @@ class ResendCreationConfirmationUsecase:
     def __init__(self, userRepository: IUserRepository):
         self._userRepository = userRepository
 
-    async def __call__(self, cpfRne: str) -> bool:
-        if not User.validateCpf(cpfRne):
-            raise EntityError("CPF")
-
-        result = await self._userRepository.resendConfirmationCode(cpfRne)
+    async def __call__(self, id: int) -> bool:
+        result = await self._userRepository.resendConfirmationCode(id)
         return result
 

@@ -9,15 +9,12 @@ class ListUsersUsecase:
 
     def __init__(self, userRepository: IUserRepository):
         self._userRepository = userRepository
-        # self.immutable_fields = ['cpfRne', 'ra', 'acceptedTerms', 'accessLevel', 'email']
-        self.mutatable_fields = ['name', 'socialName', 'acceptedNotifications', 'certificateWithSocialName']
+        self.mutatable_fields = ['name', 'ra', 'year', 'course', 'image']
 
     async def __call__(self, userList: list, accessToken: str):
         checkTokenUsecase = CheckTokenUsecase(self._userRepository)
         try:
             userRequester = User.parse_obj(await checkTokenUsecase(accessToken))
-            if userRequester.accessLevel != ACCESS_LEVEL.ADMIN:
-                raise InvalidCredentials(f"{userRequester.email} not admin")
 
             allUsers = await self._userRepository.getAllUsers()
             userDict = {}
