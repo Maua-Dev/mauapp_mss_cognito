@@ -7,7 +7,7 @@ from src.domain.errors.errors import EntityError
 
 
 class User(BaseModel):
-    id: Optional[str]
+    id: int
     name: str
     ra: str
     year: int
