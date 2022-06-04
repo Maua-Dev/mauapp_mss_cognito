@@ -27,7 +27,7 @@ class Test_ChangePasswordController:
             'result': True,
             'message': ''
         }
-        u = await repository.getUserByCpfRne('75599469093')
+        u = await repository.getUserById('75599469093')
         assert u.password == 'teste!!!123'
 
     @pytest.mark.asyncio
@@ -46,7 +46,7 @@ class Test_ChangePasswordController:
             'result': True,
             'message': ''
         }
-        u = await repository.getUserByCpfRne('64968222041')
+        u = await repository.getUserById('64968222041')
         assert u.password == 'teste!!!123'
 
     @pytest.mark.asyncio

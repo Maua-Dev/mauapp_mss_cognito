@@ -23,7 +23,7 @@ class Test_ConfirmChangePasswordController:
         confirmUserCreationController = ConfirmUserCreationController(repository)
         response = await confirmUserCreationController(request)
         assert response.status_code == 200
-        u = await repository.getUserByCpfRne('54134054052')
+        u = await repository.getUserById('54134054052')
         assert u.name == 'User3'
 
     @pytest.mark.asyncio

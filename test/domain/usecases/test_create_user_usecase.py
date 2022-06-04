@@ -7,7 +7,7 @@ from src.domain.entities.user import User
 from src.domain.errors.errors import NonExistentUser, EntityError
 from src.domain.usecases.confirm_user_creation_usecase import ConfirmUserCreationUsecase
 from src.domain.usecases.create_user_usecase import CreateUserUsecase
-from src.domain.usecases.get_user_by_cpfrne_usecase import GetUserByCpfRneUsecase
+from src.domain.usecases.get_user_by_id_usecase import GetUserByCpfRneUsecase
 from src.infra.repositories.user_repository_mock import UserRepositoryMock
 
 

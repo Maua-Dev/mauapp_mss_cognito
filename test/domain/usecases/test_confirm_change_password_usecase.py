@@ -23,7 +23,7 @@ class Test_ConfirmChangePasswordUsecase:
         result = await confirmChangePasswordUsecase(login=cpf_rne, newPassword="teste!!!", code=code)
 
         assert result
-        u = await repository.getUserByCpfRne(cpf_rne)
+        u = await repository.getUserById(cpf_rne)
         assert u.password == "teste!!!"
 
     @pytest.mark.asyncio
@@ -38,7 +38,7 @@ class Test_ConfirmChangePasswordUsecase:
         result = await confirmChangePasswordUsecase(login=email, newPassword="teste!!!", code=code)
 
         assert result
-        u = await repository.getUserByCpfRne('64968222041')
+        u = await repository.getUserById('64968222041')
         assert u.password == "teste!!!"
 
 
@@ -53,7 +53,7 @@ class Test_ConfirmChangePasswordUsecase:
         result = await confirmChangePasswordUsecase(login=email, newPassword="teste!!!", code=int(code))
 
         assert not result
-        u = await repository.getUserByCpfRne('64968222041')
+        u = await repository.getUserById('64968222041')
         assert u.password != "teste!!!"
 
 
@@ -69,7 +69,7 @@ class Test_ConfirmChangePasswordUsecase:
         result = await confirmChangePasswordUsecase(login=email, newPassword="teste!!!", code=code)
 
         assert not result
-        u = await repository.getUserByCpfRne('64968222041')
+        u = await repository.getUserById('64968222041')
         assert u.password != "teste!!!"
 
     @pytest.mark.asyncio
@@ -84,5 +84,5 @@ class Test_ConfirmChangePasswordUsecase:
         result = await confirmChangePasswordUsecase(login=email, newPassword="teste!!!", code=code)
 
         assert not result
-        u = await repository.getUserByCpfRne('64968222041')
+        u = await repository.getUserById('64968222041')
         assert u.password != "teste!!!"
