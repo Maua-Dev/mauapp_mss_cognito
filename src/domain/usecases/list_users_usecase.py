@@ -19,13 +19,13 @@ class ListUsersUsecase:
             allUsers = await self._userRepository.getAllUsers()
             userDict = {}
             for user in allUsers:
-                if user.id in userList:
-                    userDict[user.id] = user.dict()
+                if user.ra in userList:
+                    userDict[user.ra] = user.dict()
 
             if len(userDict) != len(userList):
-                for id in userList:
-                    if id not in userDict.keys():
-                        userDict[id] = {"error": f"User not found"}
+                for ra in userList:
+                    if ra not in userDict.keys():
+                        userDict[ra] = {"error": f"User not found"}
 
             return userDict
 

@@ -7,10 +7,10 @@ from src.domain.usecases.get_user_by_id_usecase import GetUserByIdUsecase
 from src.domain.repositories.user_repository_interface import IUserRepository
 
 
-class GetUserByIdRneController:
+class GetUserByIdController:
 
     def __init__(self, userRepository: IUserRepository) -> None:
-        self._getAllUserByCpfRneUseCase = GetUserByIdUsecase(userRepository)
+        self._getAllUserByIdUseCase = GetUserByIdUsecase(userRepository)
 
     async def __call__(self, req: HttpRequest) -> HttpResponse:
 
@@ -21,7 +21,7 @@ class GetUserByIdRneController:
             if  type(req.query['id']) != int:
                 return BadRequest('Invalid parameter. (id value should be Int) ')
 
-            user = await self._getAllUserByCpfRneUseCase(int(req.query['id']))
+            user = await self._getAllUserByIdUseCase(int(req.query['id']))
             response = GetUserModel.parse_obj(user)
 
             if user is None:
