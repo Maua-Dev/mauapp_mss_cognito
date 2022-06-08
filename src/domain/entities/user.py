@@ -22,13 +22,15 @@ class User(BaseModel):
 
     @validator('ra')
     def ra_is_not_invalid(cls, v: str) -> str:
-        if v != None and len(str(v)) != 8:
+        if v == None or len(str(v)) != 8:
             raise EntityError('ra')
         return str(v)
 
     @validator('year')
     def year_is_not_invalid(cls, v: int) -> int:
-        if v != None:
+        if v == None:
+            raise EntityError('year')
+        if v < 2000:
             raise EntityError('year')
         return int(v)
 
