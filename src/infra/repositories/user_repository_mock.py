@@ -13,22 +13,14 @@ class UserRepositoryMock(IUserRepository):
     def __init__(self) -> None:
         super().__init__()
         self._users = [
-            User(name='user1', cpfRne='75599469093', ra=19003315, role=ROLE.STUDENT,
-                 accessLevel=ACCESS_LEVEL.USER, createdAt=datetime(2022, 3, 8, 22, 10),
-                 updatedAt=datetime(2022, 3, 8, 22, 15), email="bruno@bruno.com", password="123456",
-                 acceptedTerms=True, acceptedNotifications=False, socialName="Bruno",
-                 certificateWithSocialName=True, id=1
+            User(name='user1', ra=19003315, year=2022,
+                 course="Engenharia da Computacao", image="www.link.com.br"
                  ),
-            User(name='user2', cpfRne='64968222041', ra=20001231, role=ROLE.PROFESSOR,
-                 accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
-                 updatedAt=datetime(2022, 2, 15, 23, 15), password="123456", email="user2@user.com",
-                 acceptedTerms=True, acceptedNotifications=True,
-                 certificateWithSocialName=False, id=2
+            User(name='user2', ra=12345678, year=2020,
+                 course="Engenharia da Computacao", image="www.link.com.br"
                  ),
-            User(name='user3', cpfRne='54134054052', ra=20001231, role=ROLE.PROFESSOR,
-                 accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
-                 updatedAt=datetime(2022, 2, 15, 23, 15), password="123456", email="user3@user.com",
-                 acceptedTerms=True, acceptedNotifications=True, id=3
+            User(name='user3', ra=87654321, year=2000,
+                 course="Engenharia da Computacao", image="www.link.com.br"
                  )
         ]
         self._confirmedUsers = [
@@ -42,10 +34,10 @@ class UserRepositoryMock(IUserRepository):
         else:
             return None
 
-    async def getUserById(self, cpfRne: str) -> User:
+    async def getUserByRA(self, RA: str) -> User:
         user: User = None
         for userx in self._confirmedUsers:
-            if userx.cpfRne == cpfRne:
+            if userx.ra == RA:
                 user = userx
                 break
             pass
@@ -58,7 +50,7 @@ class UserRepositoryMock(IUserRepository):
         return False
 
     async def createUser(self, user: User):
-        duplicitySensitive = ['cpfRne', 'email', 'ra']
+        duplicitySensitive = ['ra']
         for field in duplicitySensitive:
             if await self.checkUserByPropriety(propriety=field, value=getattr(user, field)):
                 raise UserAlreadyExists(f'Propriety ${field} = "${getattr(user, field)}" already exists')
@@ -71,7 +63,7 @@ class UserRepositoryMock(IUserRepository):
             raise InvalidCode(f'Invalid code')
         user: User = None
         for userx in self._users:
-            if userx.email == login or userx.cpfRne == login:
+            if userx.email == login or userx.ra == login:
                 user = userx
                 break
         if not user:
@@ -85,29 +77,29 @@ class UserRepositoryMock(IUserRepository):
     async def updateUser(self, user: User):
         cont = 0
         for userx in self._confirmedUsers:
-            if userx.cpfRne == user.cpfRne:
+            if userx.ra == user.ra:
                 break
             cont += 1
 
         self._confirmedUsers[cont] = user
 
-    async def deleteUser(self, cpfRne: str):
+    async def deleteUser(self, ra: str):
         cont = 0
         for userx in self._confirmedUsers:
-            if userx.cpfRne == cpfRne:
+            if userx.ra == ra:
                 self._confirmedUsers.pop(cont)
                 break
             cont += 1
 
-    async def loginUser(self, cpfRne: str, password: str) -> dict:
-        u = await self.getUserById(cpfRne)
+    async def loginUser(self, ra: str, password: str) -> dict:
+        u = await self.getUserByRA(ra)
         if u is None:
             return None
         if u.password == password:
             dictResponse = u.dict()
             dictResponse.pop('password')
-            dictResponse["accessToken"] = "validAccessToken-" + str(cpfRne)
-            dictResponse["refreshToken"] = "validRefreshToken-" + str(cpfRne)
+            dictResponse["accessToken"] = "validAccessToken-" + str(ra)
+            dictResponse["refreshToken"] = "validRefreshToken-" + str(ra)
             return dictResponse
         return None
 
@@ -118,8 +110,8 @@ class UserRepositoryMock(IUserRepository):
         if splitToken[0] != "validAccessToken":
             return None
 
-        cpfRne = splitToken[1]
-        user = await self.getUserById(cpfRne)
+        ra = splitToken[1]
+        user = await self.getUserByRA(ra)
         if user is None:
             return None
         data = user.dict()
@@ -132,14 +124,14 @@ class UserRepositoryMock(IUserRepository):
             return None, None
         if splitToken[0] != "validRefreshToken":
             return None, None
-        if await self.getUserById(splitToken[1]) is None:
+        if await self.getUserByRA(splitToken[1]) is None:
             return None, None
         return "validAccessToken-" + splitToken[1], refreshToken
 
     async def changePassword(self, login: str) -> bool:
         user = None
         if login.isdigit():
-            user = await self.getUserById(login)
+            user = await self.getUserByRA(login)
         if user:
             return True
 
@@ -160,7 +152,7 @@ class UserRepositoryMock(IUserRepository):
         # Update user password
         user = None
         if login.isdigit():
-            user = await self.getUserById(login)
+            user = await self.getUserByRA(login)
         if user:
             user.password = newPassword
             return True
@@ -170,11 +162,11 @@ class UserRepositoryMock(IUserRepository):
                 return True
         return False
 
-    async def resendConfirmationCode(self, cpfRne: str) -> bool:
-        user = await self.getUserById(cpfRne)
+    async def resendConfirmationCode(self, ra: str) -> bool:
+        user = await self.getUserByRA(ra)
 
         if user is None:
-            raise NonExistentUser(f"{cpfRne}")
+            raise NonExistentUser(f"{ra}")
 
         # Send email
 
