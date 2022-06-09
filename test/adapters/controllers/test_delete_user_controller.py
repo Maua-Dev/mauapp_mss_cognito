@@ -3,7 +3,7 @@ import pytest
 from src.adapters.controllers.delete_user_controller import DeleteUserController
 from src.adapters.helpers.http_models import HttpRequest
 from src.domain.errors.errors import NonExistentUser
-from src.domain.usecases.get_user_by_id_usecase import GetUserByCpfRneUsecase
+from src.domain.usecases.get_user_by_ra_usecase import GetUserByRAUsecase
 from src.infra.repositories.user_repository_mock import UserRepositoryMock
 
 

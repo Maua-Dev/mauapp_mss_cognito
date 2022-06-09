@@ -24,7 +24,7 @@ class Test_ConfirmChangePasswordUsecase:
         result = await confirmUserCreationUsecase(login=cpf_rne, code=code)
 
         assert result
-        u = await repository.getUserById(cpf_rne)
+        u = await repository.getUserByRA(cpf_rne)
         assert u.name == "User3"
         assert u in repository._confirmedUsers
 

@@ -3,14 +3,14 @@ from src.domain.errors.errors import UnexpectedError, NoItemsFound, NonExistentU
 from src.domain.repositories.user_repository_interface import IUserRepository
 
 
-class GetUserByIdUsecase:
+class GetUserByRAUsecase:
 
     def __init__(self, userRepository: IUserRepository):
         self._userRepository = userRepository
 
-    async def __call__(self, id: str) -> User:
+    async def __call__(self, ra: str) -> User:
         try:
-            user = await self._userRepository.getUserByRA(RA=id)
+            user = await self._userRepository.getUserByRA(RA=ra)
 
             if user is None:
                 raise NonExistentUser('')

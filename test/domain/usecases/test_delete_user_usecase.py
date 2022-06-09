@@ -2,7 +2,7 @@ import pytest
 
 from src.domain.errors.errors import NonExistentUser
 from src.domain.usecases.delete_user_usecase import DeleteUserUsecase
-from src.domain.usecases.get_user_by_id_usecase import GetUserByCpfRneUsecase
+from src.domain.usecases.get_user_by_ra_usecase import GetUserByRAUsecase
 from src.infra.repositories.user_repository_mock import UserRepositoryMock
 
 

@@ -5,7 +5,7 @@ import pytest
 from src.domain.entities.enums import ACCESS_LEVEL, ROLE
 from src.domain.entities.user import User
 from src.domain.errors.errors import InvalidToken
-from src.domain.usecases.get_user_by_id_usecase import GetUserByCpfRneUsecase
+from src.domain.usecases.get_user_by_ra_usecase import GetUserByRAUsecase
 from src.domain.usecases.update_user_usecase import UpdateUserUsecase
 from src.infra.repositories.user_repository_mock import UserRepositoryMock
 

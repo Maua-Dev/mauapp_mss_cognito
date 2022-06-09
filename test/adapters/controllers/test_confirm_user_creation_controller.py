@@ -13,7 +13,7 @@ from src.infra.repositories.user_repository_mock import UserRepositoryMock
 class Test_ConfirmChangePasswordController:
 
     @pytest.mark.asyncio
-    async def test_confirm_valid_cpfRne_controller(self):
+    async def test_confirm_valid_ra_controller(self):
         request = HttpRequest(body={
             'login': '54134054052',
             'code': '1234567'
@@ -23,7 +23,7 @@ class Test_ConfirmChangePasswordController:
         confirmUserCreationController = ConfirmUserCreationController(repository)
         response = await confirmUserCreationController(request)
         assert response.status_code == 200
-        u = await repository.getUserByRA('54134054052')
+        u = await repository.getUserByRA('87654321')
         assert u.name == 'User3'
 
     @pytest.mark.asyncio
