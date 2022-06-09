@@ -17,14 +17,14 @@ class Test_ConfirmChangePasswordUsecase:
 
         repository = UserRepositoryMock()
 
-        cpf_rne = '54134054052'
+        ra = '87654321'
         code = "1234567"
 
         confirmUserCreationUsecase = ConfirmUserCreationUsecase(repository)
-        result = await confirmUserCreationUsecase(login=cpf_rne, code=code)
+        result = await confirmUserCreationUsecase(login=ra, code=code)
 
         assert result
-        u = await repository.getUserByRA(cpf_rne)
+        u = await repository.getUserByRA(ra)
         assert u.name == "User3"
         assert u in repository._confirmedUsers
 
@@ -33,9 +33,9 @@ class Test_ConfirmChangePasswordUsecase:
 
         repository = UserRepositoryMock()
 
-        cpf_rne = '75599469093'
+        ra = '12345678'
         code = "1234567"
 
         confirmUserCreationUsecase = ConfirmUserCreationUsecase(repository)
         with pytest.raises(UserAlreadyConfirmed):
-            await confirmUserCreationUsecase(login=cpf_rne, code=code)
+            await confirmUserCreationUsecase(login=ra, code=code)
