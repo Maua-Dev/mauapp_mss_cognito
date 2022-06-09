@@ -12,19 +12,19 @@ class Test_DeleteUserUsecase:
     async def test_delete_valid_user(self):
         repository = UserRepositoryMock()
 
-        cpf1 = repository._users[0].cpfRne
-        cpf2 = repository._users[1].cpfRne
+        ra1 = repository._users[0].ra
+        ra2 = repository._users[1].ra
 
         deleteUserUsecase = DeleteUserUsecase(repository)
-        await deleteUserUsecase(cpf1)
-        await deleteUserUsecase(cpf2)
+        await deleteUserUsecase(ra1)
+        await deleteUserUsecase(ra2)
 
-        getUserByCpfRneUsecase = GetUserByCpfRneUsecase(repository)
+        GetUserByRAUC = GetUserByRAUsecase(repository)
         with pytest.raises(NonExistentUser):
-            await getUserByCpfRneUsecase(cpf1)
+            await GetUserByRAUC(ra1)
 
         with pytest.raises(NonExistentUser):
-            await getUserByCpfRneUsecase(cpf2)
+            await GetUserByRAUC(ra2)
 
     @pytest.mark.asyncio
     async def test_delete_non_existent_user(self):
