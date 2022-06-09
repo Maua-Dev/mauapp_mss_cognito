@@ -63,7 +63,7 @@ class UserRepositoryMock(IUserRepository):
             raise InvalidCode(f'Invalid code')
         user: User = None
         for userx in self._users:
-            if userx.email == login or userx.ra == login:
+            if userx.ra == login:
                 user = userx
                 break
         if not user:

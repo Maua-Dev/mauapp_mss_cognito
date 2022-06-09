@@ -15,18 +15,16 @@ class Test_CreateUserUsecase:
 
     @pytest.mark.asyncio
     async def test_create_valid_user(self):
-        newUser = User(name='Joana da Testa', cpfRne='84458081098', ra=20004239, role=ROLE.PROFESSOR,
-                 accessLevel=ACCESS_LEVEL.USER, createdAt=datetime(2022, 2, 15, 23, 15),
-                 updatedAt=datetime(2022, 2, 20, 23, 15), email='joana@testa.com', password='123456',
-                 acceptedTerms=True, acceptedNotifications=True
+        newUser = User(name='Joana da Testa', ra=20004239, year=2022,
+                 course="Engenharia de teste", image="www.link.com.br",
                 )
 
         repository = UserRepositoryMock()
 
         # confirm user does not exist yet
-        getUserByCpfRne = GetUserByCpfRneUsecase(repository)
+        GetUserByRA = GetUserByRAUsecase(repository)
         with pytest.raises(NonExistentUser):
-            await getUserByCpfRne('84458081098')
+            await GetUserByRA('20004239')
 
 
         # create user
@@ -35,76 +33,21 @@ class Test_CreateUserUsecase:
 
         # confirm user
         confirmUserUseCase = ConfirmUserCreationUsecase(repository)
-        await confirmUserUseCase('84458081098', '1234567')
+        await confirmUserUseCase('20004239', '1234567')
 
         # confirm user exists
-        createdUser = await getUserByCpfRne('84458081098')
+        GetUserByRA = GetUserByRAUsecase(repository)
+        createdUser = await GetUserByRA('20004239')
         assert createdUser is not None
 
         assert createdUser.name == 'Joana Da Testa'
-        assert createdUser.cpfRne == '84458081098'
         assert createdUser.ra == '20004239'
-        assert createdUser.role == ROLE.PROFESSOR
-        assert createdUser.accessLevel == ACCESS_LEVEL.USER
-        assert createdUser.createdAt == datetime(2022, 2, 15, 23, 15)
-        assert createdUser.updatedAt == datetime(2022, 2, 20, 23, 15)
-        assert createdUser.email == 'joana@testa.com'
-        assert createdUser.acceptedTerms == True
-        assert createdUser.acceptedNotifications == True
-        assert createdUser.certificateWithSocialName == False
-
-
-    @pytest.mark.asyncio
-    async def test_create_valid_user_with_social_name(self):
-        newUser = User(name='Joana da Testa', cpfRne='84458081098', ra=20004239, role=ROLE.PROFESSOR,
-                 accessLevel=ACCESS_LEVEL.USER, createdAt=datetime(2022, 2, 15, 23, 15),
-                 updatedAt=datetime(2022, 2, 20, 23, 15), email='joana@testa.com', password='123456',
-                 acceptedTerms=True, acceptedNotifications=True, socialName='Joao da Silva'
-                )
-
-        repository = UserRepositoryMock()
-
-        # confirm user does not exist yet
-        getUserByCpfRne = GetUserByCpfRneUsecase(repository)
-        with pytest.raises(NonExistentUser):
-            await getUserByCpfRne('84458081098')
-
-
-        # create user
-        createUserUsecase = CreateUserUsecase(repository)
-        await createUserUsecase(newUser)
-
-        # confirm user
-        confirmUserUseCase = ConfirmUserCreationUsecase(repository)
-        await confirmUserUseCase('84458081098', '1234567')
-
-        # confirm user exists
-        createdUser = await getUserByCpfRne('84458081098')
-        assert createdUser is not None
-
-        assert createdUser.name == 'Joana Da Testa'
-        assert createdUser.cpfRne == '84458081098'
-        assert createdUser.ra == '20004239'
-        assert createdUser.role == ROLE.PROFESSOR
-        assert createdUser.accessLevel == ACCESS_LEVEL.USER
-        assert createdUser.createdAt == datetime(2022, 2, 15, 23, 15)
-        assert createdUser.updatedAt == datetime(2022, 2, 20, 23, 15)
-        assert createdUser.email == 'joana@testa.com'
-        assert createdUser.acceptedTerms == True
-        assert createdUser.acceptedNotifications == True
-        assert createdUser.certificateWithSocialName == True
-        assert createdUser.socialName == 'Joao da Silva'
-
 
     @pytest.mark.asyncio
     async def test_create_invalid_user(self):
-        newUser = User(name='Joana da Testa', cpfRne='84458081098', ra=20004239, role=ROLE.PROFESSOR,
-                       accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
-                       updatedAt=datetime(2022, 2, 20, 23, 15), email='joana@testa.com', password='123456',
-                       acceptedTerms=True, acceptedNotifications=True
-                )
-        repository = UserRepositoryMock()
-        createUserUsecase = CreateUserUsecase(repository)
-
         with pytest.raises(EntityError):
-            await createUserUsecase(newUser)
+            newUser = User(name='Joana da Testa', ra=20004239, year=-1997,
+                     course="Engenharia de teste", image="www.link.com.br",
+                    )
+            repository = UserRepositoryMock()
+            createUserUsecase = CreateUserUsecase(repository)
