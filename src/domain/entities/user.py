@@ -30,7 +30,7 @@ class User(BaseModel):
     def year_is_not_invalid(cls, v: int) -> int:
         if v == None:
             raise EntityError('year')
-        if v < 2000:
+        if int(v) < 2000:
             raise EntityError('year')
         return int(v)
 
