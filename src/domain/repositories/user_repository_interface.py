@@ -6,7 +6,7 @@ from src.domain.entities.user import User
 class IUserRepository(ABC):
 
     @abstractmethod
-    async def getUserById(self, id: int) -> User:
+    async def getUserByRA(self, RA: int) -> User:
         pass
 
     @abstractmethod
@@ -22,7 +22,7 @@ class IUserRepository(ABC):
         pass
 
     @abstractmethod
-    async def deleteUser(self, cpfRne: int):
+    async def deleteUser(self, ra: int):
         pass
 
     @abstractmethod
