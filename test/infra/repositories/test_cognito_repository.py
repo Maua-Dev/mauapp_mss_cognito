@@ -90,7 +90,7 @@ class Test_CognitoRepository():
     async def test_get_user_by_cpfrne(self):
         cpfRne = 12345678910
         repo = UserRepositoryCognito()
-        response = await repo.getUserById(cpfRne)
+        response = await repo.getUserByRA(cpfRne)
         print(response)
         assert response.email == 'brunovilardibueno@gmail.com'
 

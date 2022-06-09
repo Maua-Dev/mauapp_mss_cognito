@@ -10,7 +10,7 @@ class GetUserByIdUsecase:
 
     async def __call__(self, id: str) -> User:
         try:
-            user = await self._userRepository.getUserById(id=id)
+            user = await self._userRepository.getUserByRA(RA=id)
 
             if user is None:
                 raise NonExistentUser('')

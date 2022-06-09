@@ -24,11 +24,11 @@ class UserRepositoryCognito(IUserRepository):
         self._userPoolId = userPoolId
 
 
-    async def getUserById(self, id: int) -> User:
+    async def getUserByRA(self, RA: int) -> User:
         try:
             response = self._client.admin_get_user(
                 UserPoolId=self._userPoolId,
-                Username=str(id)
+                Username=str(RA)
             )
             return CognitoUserDTO.fromKeyValuePair(data=response["UserAttributes"]).toEntity()
         except ClientError as e:
@@ -36,7 +36,7 @@ class UserRepositoryCognito(IUserRepository):
             if errorCode == 'NotAuthorizedException':
                 raise InvalidCredentials("You don`t have permission to access this resource")
             elif errorCode == 'UserNotFoundException':
-                raise NonExistentUser(f"{id}")
+                raise NonExistentUser(f"{RA}")
             else:
                 raise
 
@@ -330,7 +330,7 @@ class UserRepositoryCognito(IUserRepository):
             else:
                 raise BaseError(message=e.response.get('Error').get('Message'))
 
-    async def deleteUser(self, userCpfRne: int):
+    async def deleteUser(self, ra: int):
         pass
 
 
