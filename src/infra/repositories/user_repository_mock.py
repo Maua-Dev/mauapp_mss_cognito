@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import List
 
-from src.domain.entities.enums import ROLE, ACCESS_LEVEL
+from src.domain.entities.enums import ROLE, ACCESS_LEVEL, YEAR_ENUM
 from src.domain.entities.user import User
 from src.domain.errors.errors import UnexpectedError, InvalidToken, UserAlreadyExists, InvalidCode, NonExistentUser, \
     UserAlreadyConfirmed
@@ -13,14 +13,14 @@ class UserRepositoryMock(IUserRepository):
     def __init__(self) -> None:
         super().__init__()
         self._users = [
-            User(name='user1', ra=19003315, year=2022,
-                 course="Engenharia da Computacao", image="www.link.com.br"
+            User(id="123", name='Bruno Vilardi', ra=19003315, year=YEAR_ENUM._4,
+                 courseCode="ECM", image="www.link.com.br"
                  ),
-            User(name='user2', ra=12345678, year=2020,
-                 course="Engenharia da Computacao", image="www.link.com.br"
+            User(id="345", name='Hector Ronaldo', ra=12345678, year=YEAR_ENUM._3,
+                 courseCode="ECM", image="www.link.com.br"
                  ),
-            User(name='user3', ra=87654321, year=2000,
-                 course="Engenharia da Computacao", image="www.link.com.br"
+            User(id="678", name='Johny White', ra=87654321, year=YEAR_ENUM._5,
+                 courseCode="ECM", image="www.link.com.br"
                  )
         ]
         self._confirmedUsers = [

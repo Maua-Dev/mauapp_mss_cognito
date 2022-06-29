@@ -3,16 +3,24 @@ from typing import Optional, List
 from pydantic.main import BaseModel
 from pydantic import validator
 
+from src.domain.entities.enums import YEAR_ENUM, DegreeEnum
 from src.domain.errors.errors import EntityError
 
 
 class User(BaseModel):
+    id: Optional[str]
     name: str
     ra: str
-    year: int
-    course: str
-#    subject: List
-    image: str
+    year: YEAR_ENUM
+    course: DegreeEnum
+    email: str
+    password: Optional[str]
+
+
+    @validator('id')
+    def id_validator(cls, v):
+        return v
+
 
     @validator('name')
     def name_is_not_empty(cls,v: str)-> str:
@@ -28,20 +36,21 @@ class User(BaseModel):
 
     @validator('year')
     def year_is_not_invalid(cls, v: int) -> int:
-        if v == None:
+        if v is None:
             raise EntityError('year')
-        if int(v) < 2000:
-            raise EntityError('year')
-        return int(v)
+        return v
 
     @validator('course')
     def course_is_not_empty(cls, v: str) -> str:
-        if len(v) == 0:
+        if v is None:
             raise EntityError('course')
-        return str(v)
+        return v
 
-    @validator('image')
-    def image_is_not_empty(cls, v: str) -> str:
-        if len(v) == 0:
-            raise EntityError('image')
-        return str(v)
+    @validator('password')
+    def password_is_not_empty(self, v:str) -> str:
+        if v is None:
+            return v
+        if len(v) < 8:
+            raise EntityError('Password too short')
+        return v
+

@@ -3,6 +3,7 @@ from datetime import datetime
 import pytest
 from pydantic import ValidationError
 
+from src.domain.entities.enums import YEAR_ENUM, DegreeEnum
 from src.domain.entities.user import User
 from src.domain.errors.errors import EntityError
 
@@ -10,19 +11,15 @@ from src.domain.errors.errors import EntityError
 class Test_User():
 
     def test_create_valid_user(self):
-        user = User(name='Joao do Teste', ra='19003315',
-                    year=2022, course='Engenharia de algo',
-                    image='www.google.com'
+        user = User(id="123", name='Bruno Vilardi', ra=19003315, year=YEAR_ENUM._4,
+                 course=DegreeEnum.ECM, image="www.link.com.br", email="bruno@bruno.com"
                 )
 
-        assert len(user.name) > 0
         assert user.name == 'Joao Do Teste'
         assert user.ra == '19003315'
-        assert user.year == 2022
-        assert user.year > 0
-        assert len(user.course) > 0
-        assert user.course == 'Engenharia de algo'
-        assert user.image == 'www.google.com'
+        assert user.year == YEAR_ENUM._4
+        assert user.course.value == 'Engenharia de Computação'
+        assert user.image == 'www.link.com.br'
 
     def test_create_valid_user1(self):
         user = User(name='Joao do Teste', ra='12345678',
