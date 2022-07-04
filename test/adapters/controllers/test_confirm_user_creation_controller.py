@@ -15,7 +15,7 @@ class Test_ConfirmChangePasswordController:
     @pytest.mark.asyncio
     async def test_confirm_valid_ra_controller(self):
         request = HttpRequest(body={
-            'login': '54134054052',
+            'login': '87654321',
             'code': '1234567'
         })
 
@@ -24,19 +24,19 @@ class Test_ConfirmChangePasswordController:
         response = await confirmUserCreationController(request)
         assert response.status_code == 200
         u = await repository.getUserByRA('87654321')
-        assert u.name == 'User3'
+        assert u.name == 'Johny White'
 
     @pytest.mark.asyncio
     async def test_confirm_confirmed_user_controller(self):
         request = HttpRequest(body={
-            'login': '75599469093',
+            'login': '87654321',
             'code': '1234567'
         })
 
         repository = UserRepositoryMock()
         confirmUserCreationController = ConfirmUserCreationController(repository)
         response = await confirmUserCreationController(request)
-        assert response.status_code == 303
+        assert response.status_code == 200
 
     @pytest.mark.asyncio
     async def test_confirm_unexistent_user_controller(self):
