@@ -14,13 +14,13 @@ class UserRepositoryMock(IUserRepository):
         super().__init__()
         self._users = [
             User(id="123", name='Bruno Vilardi', ra=19003315, year=YEAR_ENUM._4,
-                 courseCode="ECM", image="www.link.com.br"
+                 course='Engenharia de Computação', email="www.link.com.br"
                  ),
             User(id="345", name='Hector Ronaldo', ra=12345678, year=YEAR_ENUM._3,
-                 courseCode="ECM", image="www.link.com.br"
+                 course='Engenharia de Computação', email="user2@user.com"
                  ),
             User(id="678", name='Johny White', ra=87654321, year=YEAR_ENUM._5,
-                 courseCode="ECM", image="www.link.com.br"
+                 course='Engenharia de Computação', email="www.link.com.br"
                  )
         ]
         self._confirmedUsers = [

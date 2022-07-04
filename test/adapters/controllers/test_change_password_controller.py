@@ -13,7 +13,7 @@ class Test_ChangePasswordController:
     @pytest.mark.asyncio
     async def test_change_valid_cpfRne_controller(self):
         request = HttpRequest(body={
-            'login': 75599469093
+            'login': 19003315
         })
 
         changePasswordController = ChangePasswordController(UserRepositoryMock())

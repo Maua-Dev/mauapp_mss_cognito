@@ -47,7 +47,7 @@ class User(BaseModel):
         return v
 
     @validator('password')
-    def password_is_not_empty(self, v:str) -> str:
+    def password_is_not_empty(cls, v:str) -> str:
         if v is None:
             return v
         if len(v) < 8:
