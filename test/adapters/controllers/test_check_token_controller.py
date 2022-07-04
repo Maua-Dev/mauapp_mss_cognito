@@ -12,19 +12,20 @@ class Test_CheckTokenController:
 
     @pytest.mark.asyncio
     async def test_check_token_valid_token_controller(self):
-        header = {"Authorization": "Bearer validAccessToken-75599469093"}
+        header = {"Authorization": "Bearer validAccessToken-19003315"}
         request = HttpRequest(headers=header)
 
         checkTokenController = CheckTokenController(UserRepositoryMock())
         response = await checkTokenController(request)
         assert response.status_code == 200
         assert response.body == {
-            'role': ROLE.STUDENT.value,
-            'access_level': ACCESS_LEVEL.USER.value,
-            'cpf_rne': '75599469093',
-            'email': 'bruno@bruno.com',
+            'name': 'Bruno Vilardi',
+            'ra': '19003315',
+            'year': 4,
+            'course': 'Engenharia de Computação',
             'valid_token': True,
-            'id': '1'
+            'email': 'www.link.com.br',
+            'id': '123'
         }
     @pytest.mark.asyncio
     async def test_check_token_invalid_token_controller(self):

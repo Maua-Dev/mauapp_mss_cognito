@@ -9,7 +9,7 @@ class CreateUserUsecase:
         self._userRepository = userRepository
 
     async def __call__(self, user: User) -> int:
-        requiredFields = ['name', 'ra', 'year', 'course', 'image']
+        requiredFields = ['name', 'ra', 'year', 'course', 'email']
         for f in requiredFields:
             if getattr(user, f) is None:
                 raise IncompleteUser(f'field "{f}" is required')

@@ -14,7 +14,7 @@ class UserRepositoryMock(IUserRepository):
         super().__init__()
         self._users = [
             User(id="123", name='Bruno Vilardi', ra=19003315, year=YEAR_ENUM._4,
-                 course='Engenharia de Computação', email="www.link.com.br"
+                 course='Engenharia de Computação', email="www.link.com.br", password='12345678'
                  ),
             User(id="345", name='Hector Ronaldo', ra=12345678, year=YEAR_ENUM._3,
                  course='Engenharia de Computação', email="user2@user.com"
