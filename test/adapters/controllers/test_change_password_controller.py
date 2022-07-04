@@ -11,7 +11,7 @@ from src.infra.repositories.user_repository_mock import UserRepositoryMock
 class Test_ChangePasswordController:
 
     @pytest.mark.asyncio
-    async def test_change_valid_cpfRne_controller(self):
+    async def test_change_valid_ra_controller(self):
         request = HttpRequest(body={
             'login': 19003315
         })
@@ -40,7 +40,7 @@ class Test_ChangePasswordController:
         }
 
     @pytest.mark.asyncio
-    async def test_change_non_existent_cpfRne_controller(self):
+    async def test_change_non_existent_ra_controller(self):
         request = HttpRequest(body={
             'login': 27550611033
         })
@@ -54,7 +54,7 @@ class Test_ChangePasswordController:
         }
 
     @pytest.mark.asyncio
-    async def test_change_invalid_cpfRne_controller(self):
+    async def test_change_invalid_ra_controller(self):
         request = HttpRequest(body={
             'login': 1232569856910
         })
@@ -68,7 +68,7 @@ class Test_ChangePasswordController:
         }
 
     @pytest.mark.asyncio
-    async def test_change_non_existent_cpfRne_controller(self):
+    async def test_change_non_existent_ra_controller(self):
         request = HttpRequest(body={
             'login': "teste@qualquercoisa.com"
         })
