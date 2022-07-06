@@ -38,7 +38,7 @@ class Test_CheckTokenController:
 
     @pytest.mark.asyncio
     async def test_check_token_invalid_token_controller2(self):
-        header = {"Authorization": "Random validAccessToken-75599469093"}
+        header = {"Authorization": "Random validAccessToken-87654321"}
         request = HttpRequest(headers=header)
 
         checkTokenController = CheckTokenController(UserRepositoryMock())
