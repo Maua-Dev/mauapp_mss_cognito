@@ -17,7 +17,7 @@ class DeleteUserController:
         if 'id' not in req.body:
             return BadRequest('Missing id.')
         try:
-            await self._deleteUserUsecase(req.body['id'])
+            await self._deleteUserUsecase(req.body['login'])
             return Ok('User deleted.')
 
         except NonExistentUser as e:

@@ -13,8 +13,8 @@ class Test_DeleteUserUsecase:
     async def test_delete_valid_user(self):
         repository = UserRepositoryMock()
 
-        req1 = HttpRequest(body={"cpfRne": repository._users[0].cpfRne})
-        req2 = HttpRequest(body={"cpfRne": repository._users[1].cpfRne})
+        req1 = HttpRequest(body={"login": repository._users[0].ra, "id": repository._users[0].id})
+        req2 = HttpRequest(body={"login": repository._users[1].ra, "id": repository._users[1].id})
 
         deleteUserController = DeleteUserController(repository)
         res1 = await deleteUserController(req1)
@@ -28,7 +28,7 @@ class Test_DeleteUserUsecase:
     async def test_delete_non_existent_user(self):
         repository = UserRepositoryMock()
 
-        req1 = HttpRequest(body={"cpfRne": repository._users[0].cpfRne})
+        req1 = HttpRequest(body={"login": repository._users[0].ra, "id": repository._users[0].id})
 
         deleteUserController = DeleteUserController(repository)
         res1 = await deleteUserController(req1)
@@ -41,7 +41,7 @@ class Test_DeleteUserUsecase:
     async def test_delete_user_with_invalid_cpf_rne(self):
         repository = UserRepositoryMock()
 
-        req1 = HttpRequest(body={"cpfRne": "65185"})
+        req1 = HttpRequest(body={"login": repository._users[2].ra, "id": repository._users[2].id})
         deleteUserController = DeleteUserController(repository)
         res1 = await deleteUserController(req1)
         assert res1.status_code == 400
