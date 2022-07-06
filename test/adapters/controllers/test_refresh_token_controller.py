@@ -12,15 +12,15 @@ class Test_RefreshTokenController:
 
     @pytest.mark.asyncio
     async def test_refresh_valid_token_controller(self):
-        header = {"Authorization": "Bearer validRefreshToken-75599469093"}
+        header = {"Authorization": "Bearer validRefreshToken-19003315"}
         request = HttpRequest(headers=header)
 
         refreshTokenController = RefreshTokenController(UserRepositoryMock())
         response = await refreshTokenController(request)
         assert response.status_code == 200
         assert response.body == {
-            'access_token': f'validAccessToken-{75599469093}',
-            'refresh_token': f'validRefreshToken-{75599469093}'
+            'access_token': f'validAccessToken-{19003315}',
+            'refresh_token': f'validRefreshToken-{19003315}'
         }
 
     @pytest.mark.asyncio
