@@ -12,16 +12,16 @@ class ListUserError():
 class ListUserModel():
     role: ROLE
     accessLevel: ACCESS_LEVEL
-    cpfRne: int
+    ra: int
     email: str
     name: str
     socialName: str
     certificateWithSocialName: str
 
-    def __init__(self, role: ROLE, accessLevel: ACCESS_LEVEL, cpfRne: int, email: str, name: str, socialName: str, certificateWithSocialName: str):
+    def __init__(self, role: ROLE, accessLevel: ACCESS_LEVEL, ra: int, email: str, name: str, socialName: str, certificateWithSocialName: str):
         self.role = role
         self.accessLevel = accessLevel
-        self.cpfRne = cpfRne
+        self.ra = ra
         self.email = email
         self.name = name
         self.socialName = socialName
@@ -33,7 +33,7 @@ class ListUserModel():
         return ListUserModel(
             role=dict.get('role').value if dict.get('role') else None,
             accessLevel=dict.get('accessLevel').value if dict.get('accessLevel') else None,
-            cpfRne=dict.get('cpfRne') if dict.get('cpfRne') else None,
+            ra=dict.get('ra') if dict.get('ra') else None,
             email=dict.get('email') if dict.get('email') else None,
             name=dict.get('name') if dict.get('name') else None,
             socialName=dict.get('socialName') if dict.get('socialName') else None,
@@ -44,7 +44,7 @@ class ListUserModel():
         return {
             'role': self.role,
             'accessLevel': self.accessLevel,
-            'cpfRne': self.cpfRne,
+            'ra': self.ra,
             'email': self.email,
             'name': self.name,
             'socialName': self.socialName,

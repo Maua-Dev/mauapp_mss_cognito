@@ -11,18 +11,18 @@ class Test_ListUsersController:
     async def test_list_valid_users(self):
         repository = UserRepositoryMock()
 
-        id1 = repository._confirmedUsers[0].id
-        id2 = repository._confirmedUsers[1].id
-        id3 = 54
-        token = "Bearer validAccessToken-64968222041"
+        ra1 = repository._confirmedUsers[0].ra
+        ra2 = repository._confirmedUsers[1].ra
+        ra3 = 54
+        token = "Bearer validAccessToken-19003315"
 
-        req = HttpRequest(body=[id1, id2, id3], headers={'Authorization': token})
+        req = HttpRequest(body=[ra1, ra2, ra3], headers={'Authorization': token})
 
         listUsersUsecase = ListUsersController(repository)
         res = await listUsersUsecase(req)
 
 
         assert res.status_code == 200
-        assert res.body[id1]["cpfRne"] == repository._confirmedUsers[0].cpfRne
-        assert res.body[id2]["cpfRne"] == repository._confirmedUsers[1].cpfRne
-        assert res.body[id3] == {"error": "User not found"}
+        assert res.body[ra1]["ra"] == repository._confirmedUsers[0].ra
+        assert res.body[ra2]["ra"] == repository._confirmedUsers[1].ra
+        assert res.body[ra3] == {"error": "User not found"}
