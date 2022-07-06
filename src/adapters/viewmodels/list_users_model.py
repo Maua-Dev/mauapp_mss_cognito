@@ -15,17 +15,13 @@ class ListUserModel():
     ra: int
     email: str
     name: str
-    socialName: str
-    certificateWithSocialName: str
 
-    def __init__(self, role: ROLE, accessLevel: ACCESS_LEVEL, ra: int, email: str, name: str, socialName: str, certificateWithSocialName: str):
+    def __init__(self, role: ROLE, accessLevel: ACCESS_LEVEL, ra: int, email: str, name: str):
         self.role = role
         self.accessLevel = accessLevel
         self.ra = ra
         self.email = email
         self.name = name
-        self.socialName = socialName
-        self.certificateWithSocialName = certificateWithSocialName
 
     def fromDict(dict):
         if "error" in dict:
@@ -36,8 +32,6 @@ class ListUserModel():
             ra=dict.get('ra') if dict.get('ra') else None,
             email=dict.get('email') if dict.get('email') else None,
             name=dict.get('name') if dict.get('name') else None,
-            socialName=dict.get('socialName') if dict.get('socialName') else None,
-            certificateWithSocialName=dict.get('certificateWithSocialName') if dict.get('certificateWithSocialName') else None
         )
 
     def toDict(self):
@@ -47,8 +41,6 @@ class ListUserModel():
             'ra': self.ra,
             'email': self.email,
             'name': self.name,
-            'socialName': self.socialName,
-            'certificateWithSocialName': self.certificateWithSocialName
         }
 
 class ListUsersModel():
