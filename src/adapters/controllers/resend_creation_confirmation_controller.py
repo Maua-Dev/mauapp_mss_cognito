@@ -23,14 +23,14 @@ class ResendCreationConfirmationController:
 
         if req.query is not None:
             return BadRequest('No parameters allowed.')
-        if not {'id'}.issubset(set(req.body)):
+        if not {'ra'}.issubset(set(req.body)):
             return BadRequest('Missing login or code.')
 
         try:
 
-            req.body['id'] = req.body['id']
+            req.body['ra'] = req.body['ra']
 
-            result = await self._resendCreationConfirmationUsecase(cpfRne=str(req.body['id']))
+            result = await self._resendCreationConfirmationUsecase(ra=str(req.body['ra']))
 
             if not result:
                 message = "Something with the request went wrong."

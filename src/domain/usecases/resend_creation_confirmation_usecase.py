@@ -8,7 +8,7 @@ class ResendCreationConfirmationUsecase:
     def __init__(self, userRepository: IUserRepository):
         self._userRepository = userRepository
 
-    async def __call__(self, id: int) -> bool:
-        result = await self._userRepository.resendConfirmationCode(id)
+    async def __call__(self, ra: int) -> bool:
+        result = await self._userRepository.resendConfirmationCode(ra)
         return result
 

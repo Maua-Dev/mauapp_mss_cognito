@@ -8,9 +8,9 @@ from src.infra.repositories.user_repository_mock import UserRepositoryMock
 class Test_ResendCreationConfirmationController:
 
     @pytest.mark.asyncio
-    async def test_resend_valid_cpf(self):
+    async def test_resend_valid_ra(self):
         request = HttpRequest(body={
-            'cpf_rne': '75599469093'
+            'ra': '19003315'
         })
 
         repository = UserRepositoryMock()
@@ -19,9 +19,9 @@ class Test_ResendCreationConfirmationController:
         assert response.status_code == 200
 
     @pytest.mark.asyncio
-    async def test_resend_invalid_cpf(self):
+    async def test_resend_invalid_ra(self):
         request = HttpRequest(body={
-            'cpf_rne': '75599469094'
+            'cpf_rne': '87654321'
         })
 
         repository = UserRepositoryMock()
