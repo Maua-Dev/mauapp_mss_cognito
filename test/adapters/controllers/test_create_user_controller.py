@@ -13,11 +13,12 @@ class TestCreateUserController:
     @pytest.mark.asyncio
     async def test_create_valid_user_controller(self):
         request = HttpRequest(body={
-            "name": 'user3',
-            "ra": '20001236',
-            "year": '2002',
-            "course": 'Engenharia da Computacao',
-            "image": 'www.site.com.br'
+            "name": 'user4',
+            "ra": '22345678',
+            "year": 4,
+            "course": 'Engenharia de Computação',
+            "email": 'www.site.com.br',
+            "password": '22345678'
         })
 
         createUserController = CreateUserController(UserRepositoryMock())
@@ -27,11 +28,12 @@ class TestCreateUserController:
     @pytest.mark.asyncio
     async def test_create_invalid_ra_user_controller(self):
         request = HttpRequest(body={
-            "name": 'user3',
-            "ra": '1234567890',
-            "year": '2002',
-            "course": 'Engenharia da Computacao',
-            "image": 'www.site.com.br'
+            "name": 'user4',
+            "ra": '223456789',
+            "year": 4,
+            "course": 'Engenharia de Computação',
+            "email": 'www.site.com.br',
+            "password": '22345678'
         })
 
         createUserController = CreateUserController(UserRepositoryMock())
@@ -41,11 +43,12 @@ class TestCreateUserController:
     @pytest.mark.asyncio
     async def test_create_invalid_ra2_user_controller(self):
         request = HttpRequest(body={
-            "name": 'user3',
+            "name": 'user4',
             "ra": '22',
-            "year": '2002',
-            "course": 'Engenharia da Computacao',
-            "image": 'www.site.com.br'
+            "year": 4,
+            "course": 'Engenharia de Computação',
+            "email": 'www.site.com.br',
+            "password": '22345678'
         })
 
         createUserController = CreateUserController(UserRepositoryMock())
@@ -55,11 +58,12 @@ class TestCreateUserController:
     @pytest.mark.asyncio
     async def test_create_invalid_ra3_user_controller(self):
         request = HttpRequest(body={
-            "name": 'user3',
-            "ra": '-22',
-            "year": '2002',
-            "course": 'Engenharia da Computacao',
-            "image": 'www.site.com.br'
+            "name": 'user4',
+            "ra": '12345678',
+            "year": 4,
+            "course": 'Engenharia de Computação',
+            "email": 'www.site.com.br',
+            "password": '22345678'
         })
 
         createUserController = CreateUserController(UserRepositoryMock())
@@ -69,11 +73,101 @@ class TestCreateUserController:
     @pytest.mark.asyncio
     async def test_create_invalid_year_user_controller(self):
         request = HttpRequest(body={
-            "name": 'user3',
-            "ra": '22',
-            "year": '1999',
-            "course": 'Engenharia da Computacao',
-            "image": 'www.site.com.br'
+            "name": 'user4',
+            "ra": '223456789',
+            "year": '4',
+            "course": 'Engenharia de Computação',
+            "email": 'www.site.com.br',
+            "password": '22345678'
+        })
+
+        createUserController = CreateUserController(UserRepositoryMock())
+        response = await createUserController(request)
+        assert response.status_code == 400
+
+    @pytest.mark.asyncio
+    async def test_create_invalid_year2_user_controller(self):
+        request = HttpRequest(body={
+            "name": 'user4',
+            "ra": '223456789',
+            "year": 0,
+            "course": 'Engenharia de Computação',
+            "email": 'www.site.com.br',
+            "password": '22345678'
+        })
+
+        createUserController = CreateUserController(UserRepositoryMock())
+        response = await createUserController(request)
+        assert response.status_code == 400
+
+    @pytest.mark.asyncio
+    async def test_create_invalid_year3_user_controller(self):
+        request = HttpRequest(body={
+            "name": 'user4',
+            "ra": '223456789',
+            "year": 7,
+            "course": 'Engenharia de Computação',
+            "email": 'www.site.com.br',
+            "password": '22345678'
+        })
+
+        createUserController = CreateUserController(UserRepositoryMock())
+        response = await createUserController(request)
+        assert response.status_code == 400
+
+    @pytest.mark.asyncio
+    async def test_create_invalid_year3_user_controller(self):
+        request = HttpRequest(body={
+            "name": 'user4',
+            "ra": '223456789',
+            "year": 250250,
+            "course": 'Engenharia de Computação',
+            "email": 'www.site.com.br',
+            "password": '22345678'
+        })
+
+        createUserController = CreateUserController(UserRepositoryMock())
+        response = await createUserController(request)
+        assert response.status_code == 400
+
+    @pytest.mark.asyncio
+    async def test_create_invalid_password_user_controller(self):
+        request = HttpRequest(body={
+            "name": 'user4',
+            "ra": '223456789',
+            "year": 250250,
+            "course": 'Engenharia de Computação',
+            "email": 'www.site.com.br',
+            "password": '2234'
+        })
+
+        createUserController = CreateUserController(UserRepositoryMock())
+        response = await createUserController(request)
+        assert response.status_code == 400
+
+    @pytest.mark.asyncio
+    async def test_create_invalid_password2_user_controller(self):
+        request = HttpRequest(body={
+            "name": 'user4',
+            "ra": '223456789',
+            "year": 250250,
+            "course": 'Engenharia de Computação',
+            "email": 'www.site.com.br'
+        })
+
+        createUserController = CreateUserController(UserRepositoryMock())
+        response = await createUserController(request)
+        assert response.status_code == 400
+
+    @pytest.mark.asyncio
+    async def test_create_invalid_password3_user_controller(self):
+        request = HttpRequest(body={
+            "name": 'user4',
+            "ra": '223456789',
+            "year": 250250,
+            "course": 'Engenharia de Computação',
+            "email": 'www.site.com.br',
+            "password": ''
         })
 
         createUserController = CreateUserController(UserRepositoryMock())

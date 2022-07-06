@@ -26,12 +26,16 @@ class CreateUserController:
             req.body['ra'] = req.body.get('ra')
             req.body['year'] = req.body.get('year')
             req.body['course'] = req.body.get('course')
-            req.body['image'] = req.body.get('image')
+            req.body['email'] = req.body.get('email')
+            req.body['password'] = req.body.get('password')
+
+
 
             # removes keys that have no value
             req.body = {k: v for k, v in req.body.items() if v is not None}
 
             user = User.parse_obj(req.body)
+
             await self._createUserUsecase(user)
             response = {f"User {user.name} created."}
             return Ok(response)
