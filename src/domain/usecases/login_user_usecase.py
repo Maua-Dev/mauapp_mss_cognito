@@ -9,7 +9,7 @@ class LoginUserUsecase:
         self._userRepository = userRepository
 
     async def __call__(self, ra: int, password: str) -> dict:
-        loginResponseFields = ['name', 'ra', 'year', 'course', 'image']
+        loginResponseFields = ['name', 'ra', 'year', 'course', 'email']
         data = await self._userRepository.loginUser(ra, password)
         if data is None:
             raise InvalidCredentials(f'Ra and password don`t match')

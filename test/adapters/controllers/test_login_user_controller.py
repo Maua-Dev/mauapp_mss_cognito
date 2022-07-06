@@ -12,48 +12,32 @@ class Test_LoginUserController:
     @pytest.mark.asyncio
     async def test_login_valid_user_controller(self):
         request = HttpRequest(body={
-            'login': '75599469093',
-            'password': '123456',
+            'login': '19003315',
+            'password': '12345678',
         })
 
         loginUserController = LoginUserController(UserRepositoryMock())
         response = await loginUserController(request)
         assert response.status_code == 200
         assert response.body == {
-            'access_token': f'validAccessToken-{75599469093}',
-            'refresh_token': f'validRefreshToken-{75599469093}',
-            'role': ROLE.STUDENT.value,
-            'access_level': ACCESS_LEVEL.USER.value,
-            'cpf_rne': '75599469093',
-            'email': 'bruno@bruno.com',
-            'social_name': 'Bruno',
-            'name': 'User1',
-            'certificate_with_social_name': True,
-            'id': '1'
+            'access_token': f'validAccessToken-{19003315}',
+            'refresh_token': f'validRefreshToken-{19003315}',
+            'ra': '19003315',
+            'year': 4,
+            'email': 'www.link.com.br',
+            'name': 'Bruno Vilardi',
+            'id': '123'
         }
 
     @pytest.mark.asyncio
-    async def test_login_valid_user_controller_no_socialName(self):
+    async def test_login_invalid_user_controller_no_password(self):
         request = HttpRequest(body={
-            'login': '64968222041',
-            'password': '123456',
+            'login': '19003315',
         })
 
         loginUserController = LoginUserController(UserRepositoryMock())
         response = await loginUserController(request)
-        assert response.status_code == 200
-        assert response.body == {
-            'access_token': f'validAccessToken-{64968222041}',
-            'refresh_token': f'validRefreshToken-{64968222041}',
-            'role': ROLE.PROFESSOR.value,
-            'access_level': ACCESS_LEVEL.ADMIN.value,
-            'cpf_rne': '64968222041',
-            'email': 'user2@user.com',
-            'social_name': None,
-            'name': 'User2',
-            'certificate_with_social_name': False,
-            'id': '2'
-        }
+        assert response.status_code == 400
 
     @pytest.mark.asyncio
     async def test_login_invalid_user_controller(self):
@@ -69,7 +53,7 @@ class Test_LoginUserController:
     @pytest.mark.asyncio
     async def test_login_non_existent_user_controller(self):
         request = HttpRequest(body={
-            'login': '19971667045',
+            'login': '87654321',
             'password': '123456',
         })
 
