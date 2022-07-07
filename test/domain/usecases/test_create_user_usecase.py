@@ -1,8 +1,9 @@
 from datetime import datetime
 
 import pytest
+from pydantic import ValidationError
 
-from src.domain.entities.enums import ACCESS_LEVEL, ROLE
+from src.domain.entities.enums import YEAR_ENUM, DegreeEnum
 from src.domain.entities.user import User
 from src.domain.errors.errors import NonExistentUser, EntityError
 from src.domain.usecases.confirm_user_creation_usecase import ConfirmUserCreationUsecase
@@ -15,8 +16,8 @@ class Test_CreateUserUsecase:
 
     @pytest.mark.asyncio
     async def test_create_valid_user(self):
-        newUser = User(name='Joana da Testa', ra=20004239, year=2022,
-                 course="Engenharia de teste", image="www.link.com.br",
+        newUser = User(name='Joana da Testa', ra=20004239, year=YEAR_ENUM._3,
+                 course=DegreeEnum.EAD, email="www.link.com.br", password="12345678"
                 )
 
         repository = UserRepositoryMock()
@@ -45,9 +46,18 @@ class Test_CreateUserUsecase:
 
     @pytest.mark.asyncio
     async def test_create_invalid_user(self):
-        with pytest.raises(EntityError):
+        with pytest.raises((EntityError, ValidationError)):
             newUser = User(name='Joana da Testa', ra=20004239, year=-1997,
-                     course="Engenharia de teste", image="www.link.com.br",
-                    )
+                           course="Engenharia de teste", email="www.link.com.br",
+                           )
+            repository = UserRepositoryMock()
+            createUserUsecase = CreateUserUsecase(repository)
+
+    @pytest.mark.asyncio
+    async def test_create_invalid_user2(self):
+        with pytest.raises((EntityError, ValidationError)):
+            newUser = User(name='Joana da Testa', ra=20004239, year=YEAR_ENUM._4.value,
+                           course=DegreeEnum.EAD,
+                           )
             repository = UserRepositoryMock()
             createUserUsecase = CreateUserUsecase(repository)

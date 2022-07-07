@@ -2,7 +2,7 @@ from datetime import datetime
 
 import pytest
 
-from src.domain.entities.enums import ACCESS_LEVEL, ROLE
+from src.domain.entities.enums import YEAR_ENUM, DegreeEnum
 from src.domain.entities.user import User
 from src.domain.errors.errors import InvalidToken
 from src.domain.usecases.get_user_by_ra_usecase import GetUserByRAUsecase
@@ -14,10 +14,9 @@ class Test_UpdateUserUsecase:
 
     @pytest.mark.asyncio
     async def test_update_existent_user(self):
-        oldUser = User(name='user1', cpfRne='75599469093', ra=19003315, role=ROLE.STUDENT,
-                 accessLevel=ACCESS_LEVEL.USER, createdAt=datetime(2022, 3, 8, 22, 10),
-                 updatedAt=datetime(2022, 3, 8, 22, 15), email="bruno@bruno.com"
-                )
+        oldUser = User(id="123", name='Bruno Vilardi', ra=19003315, year=YEAR_ENUM._4,
+                 course='Engenharia de Computação', email="www.link.com.br", password='12345678'
+                 )
 
         newUser = oldUser.copy()
         newUser.name = 'user1_'
@@ -25,92 +24,49 @@ class Test_UpdateUserUsecase:
         repository = UserRepositoryMock()
 
         updateUserUsecase = UpdateUserUsecase(repository)
-        await updateUserUsecase(newUser.dict(), f"validAccessToken-{oldUser.cpfRne}")
+        await updateUserUsecase(newUser.dict(), f"validAccessToken-{oldUser.ra}")
 
         # confirm user was updated
-        getUserByCpfRneUsecase = GetUserByCpfRneUsecase(repository)
-        updatedUser = await getUserByCpfRneUsecase('75599469093')
+        getUserByRAUsecase = GetUserByRAUsecase(repository)
+        updatedUser = await getUserByRAUsecase(newUser.ra)
 
         assert updatedUser is not None
         assert updatedUser.name == 'user1_'
-        assert updatedUser.name != oldUser.cpfRne
-        assert updatedUser.cpfRne == oldUser.cpfRne
+        assert updatedUser.name != oldUser.name
         assert updatedUser.ra == oldUser.ra
-        assert updatedUser.role == oldUser.role
-        assert updatedUser.accessLevel == oldUser.accessLevel
-        assert updatedUser.createdAt == oldUser.createdAt
-        assert updatedUser.updatedAt == oldUser.updatedAt
         assert updatedUser.email == oldUser.email
 
     @pytest.mark.asyncio
     async def test_update_existent_user2(self):
-        oldUser = User(name='user1', cpfRne='75599469093', ra=19003315, role=ROLE.STUDENT,
-                 accessLevel=ACCESS_LEVEL.USER, createdAt=datetime(2022, 3, 8, 22, 10),
-                 updatedAt=datetime(2022, 3, 8, 22, 15), email="bruno@bruno.com"
-                )
+        oldUser = User(id="345", name='Hector Ronaldo', ra=12345678, year=YEAR_ENUM._3,
+                 course='Engenharia de Computação', email="user2@user.com"
+                 )
 
         newUser = oldUser.copy()
         newUser.name = 'user2_'
-        newUser.socialName = 'userx_'
 
         repository = UserRepositoryMock()
 
         updateUserUsecase = UpdateUserUsecase(repository)
-        await updateUserUsecase(newUser.dict(), f"validAccessToken-{oldUser.cpfRne}")
+        await updateUserUsecase(newUser.dict(), f"validAccessToken-{oldUser.ra}")
 
         # confirm user was updated
-        getUserByCpfRneUsecase = GetUserByCpfRneUsecase(repository)
-        updatedUser = await getUserByCpfRneUsecase('75599469093')
+        getUserByRAUsecase = GetUserByRAUsecase(repository)
+        updatedUser = await getUserByRAUsecase(newUser.ra)
 
         assert updatedUser is not None
         assert updatedUser.name == 'user2_'
         assert updatedUser.name != oldUser.name
-        assert updatedUser.socialName == 'userx_'
-        assert updatedUser.socialName != oldUser.socialName
-        assert updatedUser.cpfRne == oldUser.cpfRne
         assert updatedUser.ra == oldUser.ra
-        assert updatedUser.role == oldUser.role
-        assert updatedUser.accessLevel == oldUser.accessLevel
-        assert updatedUser.createdAt == oldUser.createdAt
-        assert updatedUser.updatedAt == oldUser.updatedAt
         assert updatedUser.email == oldUser.email
-
-
-    @pytest.mark.asyncio
-    async def test_update_existent_user_access_level(self):
-        oldUser = User(name='user1', cpfRne='75599469093', ra=19003315, role=ROLE.STUDENT,
-                 accessLevel=ACCESS_LEVEL.USER, createdAt=datetime(2022, 3, 8, 22, 10),
-                 updatedAt=datetime(2022, 3, 8, 22, 15), email="bruno@bruno.com"
-                )
-        newUser = oldUser.copy()
-        newUser.name = 'user1_'
-        newUser.accessLevel = ACCESS_LEVEL.ADMIN
-
-        repository = UserRepositoryMock()
-
-        updateUserUsecase = UpdateUserUsecase(repository)
-
-
-        await updateUserUsecase(newUser.dict(), f"validAccessToken-{oldUser.cpfRne}")
-
-        getUserByCpfRneUsecase = GetUserByCpfRneUsecase(repository)
-        userNotUpdated = await getUserByCpfRneUsecase('75599469093')
-
-        assert userNotUpdated.name == 'user1_'
-        assert userNotUpdated.cpfRne == '75599469093'
-        assert userNotUpdated.ra == '19003315'
-        assert userNotUpdated.role == ROLE.STUDENT
-        assert userNotUpdated.accessLevel == ACCESS_LEVEL.USER
-
 
     @pytest.mark.asyncio
     async def test_update_non_existent_user(self):
-        newUser = User(name='Joana da Testa', cpfRne='27550611033', ra=20004239, role=ROLE.PROFESSOR,
-                       accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
-                       updatedAt=datetime(2022, 2, 20, 23, 15), email='joana@testa.com'
-                       )
+        newUser = User(id="678", name='Johny White', ra=87654321, year=YEAR_ENUM._5,
+                 course='Engenharia de Computação', email="www.link.com.br", password='12345678'
+                 )
         repository = UserRepositoryMock()
         updateUserUsecase = UpdateUserUsecase(repository)
 
         with pytest.raises(InvalidToken):
-            await updateUserUsecase(newUser.dict(), f"validAccessToken-{newUser.cpfRne}")
+            await updateUserUsecase(newUser.dict(), f"validAccessToken-{newUser.ra}")

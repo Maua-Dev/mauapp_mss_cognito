@@ -11,43 +11,41 @@ class Test_LoginUserUsecase:
     @pytest.mark.asyncio
     async def test_login_valid_user(self):
 
-        cpf_rne = '75599469093'
-        password = '123456'
+        ra = '19003315'
+        password = '12345678'
 
         repository = UserRepositoryMock()
 
         loginUserUsecase = LoginUserUsecase(repository)
-        data = await loginUserUsecase(cpf_rne, password)
-        expectedAcessToken = 'validAccessToken-' + str(cpf_rne)
-        expectedRefreshToken = 'validRefreshToken-' + str(cpf_rne)
+        data = await loginUserUsecase(ra, password)
+        expectedAcessToken = 'validAccessToken-' + str(ra)
+        expectedRefreshToken = 'validRefreshToken-' + str(ra)
 
         assert data["accessToken"] == expectedAcessToken
         assert data["refreshToken"] == expectedRefreshToken
-        assert data["cpfRne"] == cpf_rne
-        assert data["accessLevel"] == ACCESS_LEVEL.USER
-        assert data["role"] == ROLE.STUDENT
-        assert data["name"] == 'User1'
-        assert data["email"] == 'bruno@bruno.com'
+        assert data["ra"] == ra
+        assert data["name"] == 'Bruno Vilardi'
+        assert data["email"] == 'www.link.com.br'
 
 
     @pytest.mark.asyncio
     async def test_login_invalid_user(self):
-        cpf_rne = '75599469093'
-        password = '1234567'
+        ra = '87654321'
+        password = '12345678'
 
         repository = UserRepositoryMock()
 
         loginUserUsecase = LoginUserUsecase(repository)
         with pytest.raises(InvalidCredentials):
-            await loginUserUsecase(cpf_rne, password)
+            await loginUserUsecase(ra, password)
 
     @pytest.mark.asyncio
     async def test_login_non_existent_user(self):
-        cpf_rne = '27550611033'
+        ra = '27550611033'
         password = '123456'
 
         repository = UserRepositoryMock()
 
         loginUserUsecase = LoginUserUsecase(repository)
         with pytest.raises(InvalidCredentials):
-            await loginUserUsecase(cpf_rne, password)
+            await loginUserUsecase(ra, password)

@@ -20,7 +20,7 @@ class UserRepositoryMock(IUserRepository):
                  course='Engenharia de Computação', email="user2@user.com"
                  ),
             User(id="678", name='Johny White', ra=87654321, year=YEAR_ENUM._5,
-                 course='Engenharia de Computação', email="www.link.com.br"
+                 course='Engenharia de Computação', email="www.link.com.br", password='12345678'
                  )
         ]
         self._confirmedUsers = [

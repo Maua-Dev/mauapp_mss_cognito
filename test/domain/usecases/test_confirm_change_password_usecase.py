@@ -16,29 +16,29 @@ class Test_ConfirmChangePasswordUsecase:
 
         repository = UserRepositoryMock()
 
-        cpf_rne = '75599469093'
+        ra = '19003315'
         code = "123456"
 
         confirmChangePasswordUsecase = ConfirmChangePasswordUsecase(repository)
-        result = await confirmChangePasswordUsecase(login=cpf_rne, newPassword="teste!!!", code=code)
+        result = await confirmChangePasswordUsecase(login=ra, newPassword="teste!!!", code=code)
 
         assert result
-        u = await repository.getUserByRA(cpf_rne)
+        u = await repository.getUserByRA(ra)
         assert u.password == "teste!!!"
 
     @pytest.mark.asyncio
-    async def test_change_valid_user_email(self):
+    async def test_change_valid_user(self):
 
         repository = UserRepositoryMock()
 
-        email = "user2@user.com"
+        ra = "12345678"
         code = "123456"
 
         confirmChangePasswordUsecase = ConfirmChangePasswordUsecase(repository)
-        result = await confirmChangePasswordUsecase(login=email, newPassword="teste!!!", code=code)
+        result = await confirmChangePasswordUsecase(login=ra, newPassword="teste!!!", code=code)
 
         assert result
-        u = await repository.getUserByRA('64968222041')
+        u = await repository.getUserByRA(ra)
         assert u.password == "teste!!!"
 
 
@@ -46,15 +46,13 @@ class Test_ConfirmChangePasswordUsecase:
     async def test_change_non_existent_user(self):
         repository = UserRepositoryMock()
 
-        email = "user2@user.com"
-        code = "123456789"
+        ra = "87654321"
+        code = "123456"
 
         confirmChangePasswordUsecase = ConfirmChangePasswordUsecase(repository)
-        result = await confirmChangePasswordUsecase(login=email, newPassword="teste!!!", code=int(code))
+        result = await confirmChangePasswordUsecase(login=ra, newPassword="teste!!!", code=int(code))
 
         assert not result
-        u = await repository.getUserByRA('64968222041')
-        assert u.password != "teste!!!"
 
 
 
@@ -62,27 +60,10 @@ class Test_ConfirmChangePasswordUsecase:
     async def test_change_invalid_code(self):
         repository = UserRepositoryMock()
 
-        email = "user2@user.com"
+        ra = "87654321"
         code = "1234567"
 
         confirmChangePasswordUsecase = ConfirmChangePasswordUsecase(repository)
-        result = await confirmChangePasswordUsecase(login=email, newPassword="teste!!!", code=code)
+        result = await confirmChangePasswordUsecase(login=ra, newPassword="teste!!!", code=code)
 
         assert not result
-        u = await repository.getUserByRA('64968222041')
-        assert u.password != "teste!!!"
-
-    @pytest.mark.asyncio
-    async def test_change_non_existent_email(self):
-
-        email = "teste@nada.com"
-        code = "123456"
-
-        repository = UserRepositoryMock()
-
-        confirmChangePasswordUsecase = ConfirmChangePasswordUsecase(repository)
-        result = await confirmChangePasswordUsecase(login=email, newPassword="teste!!!", code=code)
-
-        assert not result
-        u = await repository.getUserByRA('64968222041')
-        assert u.password != "teste!!!"

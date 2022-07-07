@@ -15,10 +15,10 @@ class Test_ChangePasswordUsecase:
 
         repository = UserRepositoryMock()
 
-        cpf_rne = 75599469093
+        login = 19003315
 
         changePasswordUsecase = ChangePasswordUsecase(repository)
-        result = await changePasswordUsecase(str(cpf_rne))
+        result = await changePasswordUsecase(str(login))
 
         assert result
 
@@ -35,15 +35,15 @@ class Test_ChangePasswordUsecase:
         assert result
 
     @pytest.mark.asyncio
-    async def test_change_non_existent_cpfRne(self):
+    async def test_change_non_existent_ra(self):
 
 
-        cpf_rne = 71117649008
+        ra = 71117649008
 
         repository = UserRepositoryMock()
 
         changePasswordUsecase = ChangePasswordUsecase(repository)
-        result = await changePasswordUsecase(str(cpf_rne))
+        result = await changePasswordUsecase(str(ra))
 
         assert not result
 

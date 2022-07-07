@@ -12,33 +12,33 @@ class Test_ResendUserCreationConfirmationUsecase:
 
         repository = UserRepositoryMock()
 
-        cpf_rne = '75599469093'
+        ra = '19003315'
 
         resendUserCreationConfirmationUsecase = ResendCreationConfirmationUsecase(repository)
-        result = await resendUserCreationConfirmationUsecase(cpf_rne)
+        result = await resendUserCreationConfirmationUsecase(ra)
 
         assert result
 
     @pytest.mark.asyncio
-    async def test_resend_invalid_cpf(self):
+    async def test_resend_invalid_ra(self):
 
         repository = UserRepositoryMock()
 
-        cpf_rne = '54134054053'
+        ra = '43289456021'
 
         resendUserCreationConfirmationUsecase = ResendCreationConfirmationUsecase(repository)
 
-        with pytest.raises(EntityError):
-            await resendUserCreationConfirmationUsecase(cpf_rne)
+        with pytest.raises(NonExistentUser):
+            await resendUserCreationConfirmationUsecase(ra)
 
     @pytest.mark.asyncio
     async def test_resend_nonexistent_user(self):
 
         repository = UserRepositoryMock()
 
-        cpf_rne = '43289456021'
+        ra = '87654321'
 
         resendUserCreationConfirmationUsecase = ResendCreationConfirmationUsecase(repository)
 
         with pytest.raises(NonExistentUser):
-            await resendUserCreationConfirmationUsecase(cpf_rne)
+            await resendUserCreationConfirmationUsecase(ra)

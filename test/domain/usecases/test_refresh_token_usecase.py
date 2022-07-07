@@ -12,13 +12,13 @@ class Test_RefreshTokenUsecase:
 
         repository = UserRepositoryMock()
 
-        cpf_rne = '75599469093'
-        refreshToken = f'validRefreshToken-{cpf_rne}'
+        ra = '19003315'
+        refreshToken = f'validRefreshToken-{ra}'
 
         refreshTokenUsecase = RefreshTokenUsecase(repository)
         accessToken, refreshToken = await refreshTokenUsecase(refreshToken)
-        expectedAcessToken = 'validAccessToken-' + str(cpf_rne)
-        expectedRefreshToken = 'validRefreshToken-' + str(cpf_rne)
+        expectedAcessToken = 'validAccessToken-' + str(ra)
+        expectedRefreshToken = 'validRefreshToken-' + str(ra)
 
         assert accessToken == expectedAcessToken
         assert refreshToken == expectedRefreshToken
@@ -27,8 +27,8 @@ class Test_RefreshTokenUsecase:
     async def test_refresh_token_invalid_token(self):
 
 
-        cpf_rne = '75599469093'
-        refreshToken = f'invalidRefreshToken-{cpf_rne}'
+        ra = '87654321'
+        refreshToken = f'invalidRefreshToken-{ra}'
 
         repository = UserRepositoryMock()
 
@@ -39,8 +39,8 @@ class Test_RefreshTokenUsecase:
     @pytest.mark.asyncio
     async def test_refresh_token_invalid_token2(self):
 
-        cpf_rne = '27550611033'
-        refreshToken = f'validRefreshToken-{cpf_rne}'
+        ra = '87654321'
+        refreshToken = f'validRefreshToken-{ra}'
 
         repository = UserRepositoryMock()
 

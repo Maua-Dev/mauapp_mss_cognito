@@ -10,34 +10,34 @@ class Test_ListUserUsecase:
     async def test_list_valid_users(self):
         repository = UserRepositoryMock()
 
-        id1 = repository._users[0].id
-        id2 = repository._users[1].id
+        ra1 = repository._users[0].ra
+        ra2 = repository._users[1].ra
 
-        l = [id1, id2]
-        token = "validAccessToken-64968222041"
+        l = [ra1, ra2]
+        token = "validAccessToken-19003315"
 
         listUsersUsecase = ListUsersUsecase(repository)
         userList = await listUsersUsecase(l, token)
 
         assert len(userList) == 2
-        assert userList[id1] == repository._confirmedUsers[0]
-        assert userList[id2] == repository._confirmedUsers[1]
+        assert userList[ra1] == repository._confirmedUsers[0]
+        assert userList[ra2] == repository._confirmedUsers[1]
 
     @pytest.mark.asyncio
     async def test_list_valid_and_non_exitent_users(self):
         repository = UserRepositoryMock()
 
-        id1 = repository._users[0].id
-        id2 = repository._users[1].id
-        id3 = 57
+        ra1 = repository._users[0].ra
+        ra2 = repository._users[1].ra
+        ra3 = 57
 
-        l = [id1, id2, id3]
-        token = "validAccessToken-64968222041"
+        l = [ra1, ra2, ra3]
+        token = "validAccessToken-19003315"
 
         listUsersUsecase = ListUsersUsecase(repository)
         userList = await listUsersUsecase(l, token)
 
         assert len(userList) == 3
-        assert userList[id1] == repository._confirmedUsers[0]
-        assert userList[id2] == repository._confirmedUsers[1]
-        assert userList[id3] == {"error": "User not found"}
+        assert userList[ra1] == repository._confirmedUsers[0]
+        assert userList[ra2] == repository._confirmedUsers[1]
+        assert userList[ra3] == {"error": "User not found"}

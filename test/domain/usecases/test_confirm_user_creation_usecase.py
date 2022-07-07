@@ -25,7 +25,7 @@ class Test_ConfirmChangePasswordUsecase:
 
         assert result
         u = await repository.getUserByRA(ra)
-        assert u.name == "User3"
+        assert u.name == "Johny White"
         assert u in repository._confirmedUsers
 
     @pytest.mark.asyncio
