@@ -14,11 +14,9 @@ class TestUpdateUserController:
     @pytest.mark.asyncio
     async def test_update_valid_user_controller(self):
         req = {
-            "name": 'Bruno',
-            "social_name": 'userx1',
-            "certificate_with_social_name": 'true',
+            "name": 'Bruno Vilardi',
         }
-        header = {"Authorization": "Bearer validAccessToken-75599469093"}
+        header = {"Authorization": "Bearer validAccessToken-19003315"}
         request = HttpRequest(body=req, headers=header)
 
         updateUserController = UpdateUserController(UserRepositoryMock())
@@ -29,11 +27,9 @@ class TestUpdateUserController:
     @pytest.mark.asyncio
     async def test_update_invalid_user_controller(self):
         req = {
-            "name": 'Bruno',
-            "social_name": 'userx1',
-            "certificate_with_social_name": True,
+            "name": 'Johny White',
         }
-        header = {"Authorization": "Bearer validAccessToken-75599469053"}
+        header = {"Authorization": "Bearer validAccessToken-87654321"}
         request = HttpRequest(body=req, headers=header)
 
         updateUserController = UpdateUserController(UserRepositoryMock())
