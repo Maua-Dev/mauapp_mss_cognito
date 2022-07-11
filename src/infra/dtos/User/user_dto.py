@@ -11,7 +11,7 @@ from src.infra.dtos.db_base import DbBaseModel
 class CognitoUserDTO(DbBaseModel):
     userAttributes: List[dict] = []
     userSub: str
-    customAttributes = ['name', 'ra', 'year', 'course', 'image']
+    customAttributes = ['name', 'ra', 'year', 'course', 'email']
     changedFieldNames = {
         'acceptedNotific': 'acceptedNotifications',
         'certWithSocialName': 'certificateWithSocialName'
@@ -38,7 +38,7 @@ class CognitoUserDTO(DbBaseModel):
             ra=self.ra,
             year=self.year,
             course= self.course,
-            image=self.image
+            email=self.email,
         )
 
     @staticmethod

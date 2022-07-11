@@ -12,16 +12,16 @@ class DbBaseModel():
     year: int
     course: str
 #    subject: List
-    image: str
+    email: str
 
     def __init__(self, data: dict):
         self.id = data.get('id')
         self.name = data.get('name')
         self.ra = str(data.get('ra'))
-        self.year = str(data.get('year'))
+        self.year = (data.get('year'))
         self.course = data.get('course')
 #        self.subject = data.get('course')
-        self.image = data.get('image')
+        self.email = data.get('email')
 
     def to_dict(self):
         return self.__dict__

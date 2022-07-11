@@ -1,7 +1,7 @@
 from datetime import datetime
 import pytest
 
-from src.domain.entities.enums import ROLE, ACCESS_LEVEL
+from src.domain.entities.enums import ROLE, YEAR_ENUM, DegreeEnum
 from src.domain.entities.user import User
 from src.infra.dtos.User.user_dto import CognitoUserDTO
 
@@ -9,40 +9,23 @@ from src.infra.dtos.User.user_dto import CognitoUserDTO
 class Test_CognitoUserDTO():
 
     def test_create_valid_user(self):
-        user = User(name='Joao do Teste', cpfRne='93523844070', ra=19003315, role=ROLE.PROFESSOR,
-                    accessLevel=ACCESS_LEVEL.ADMIN, createdAt=datetime(2022, 2, 15, 23, 15),
-                    updatedAt=datetime(2022, 2, 15, 23, 15), email='bruno@bruno.com',
-                    acceptedTerms=True, acceptedNotifications=True, socialName='Bruno',
-                    certificateWithSocialName=False
+        user = User(name='Joao do Teste', ra=19003315, year=YEAR_ENUM._4,
+                    course='Engenharia de Computação', email="bruno@bruno.com"
                     )
 
         userCognitoDto = CognitoUserDTO(user.dict())
         assert userCognitoDto.name == 'Joao Do Teste'
-        assert userCognitoDto.cpfRne == '93523844070'
-        assert userCognitoDto.role == ROLE.PROFESSOR
-        assert userCognitoDto.accessLevel == ACCESS_LEVEL.ADMIN
         assert userCognitoDto.ra == '19003315'
-        assert userCognitoDto.password is None
-        assert userCognitoDto.email == 'bruno@bruno.com'
-        assert userCognitoDto.acceptedTerms == True
-        assert userCognitoDto.acceptedNotific == True
-        assert userCognitoDto.socialName == 'Bruno'
-        assert userCognitoDto.certWithSocialName == False
+        assert userCognitoDto.email == "bruno@bruno.com"
+        assert userCognitoDto.course.value == 'Engenharia de Computação'
 
         userAttributes = userCognitoDto.userAttributes
 
         expectedAttributes = [
-            {'Name': 'name', 'Value': 'Joao Do Teste'},
-            {'Name': 'custom:cpfRne', 'Value': '93523844070'},
+            {'Name': 'custom:name', 'Value': 'Joao Do Teste'},
             {'Name': 'custom:ra', 'Value': '19003315'},
-            {'Name': 'email', 'Value': 'bruno@bruno.com'},
-            {'Name': 'custom:accessLevel', 'Value': ACCESS_LEVEL.ADMIN.value},
-            {'Name': 'custom:role', 'Value': ROLE.PROFESSOR.value},
-            {'Name': 'custom:acceptedTerms', 'Value': 'True'},
-            {'Name': 'custom:acceptedNotific', 'Value': 'True'},
-            {'Name': 'custom:socialName', 'Value': 'Bruno'},
-            {'Name': 'custom:certWithSocialName', 'Value': 'False'},
-
+            {'Name': 'custom:email', 'Value': 'bruno@bruno.com'},
+            {'Name': 'custom:year', 'Value': 'YEAR_ENUM._4'},
         ]
 
         for att in expectedAttributes:
@@ -51,31 +34,21 @@ class Test_CognitoUserDTO():
 
 
     def test_parse_valid_user(self):
-        user = User(name='Joao do Teste', cpfRne='93523844070', ra=19003315, role=ROLE.PROFESSOR,
-                    accessLevel=ACCESS_LEVEL.ADMIN, email='bruno@bruno.com',
-                    acceptedTerms=True, acceptedNotifications=True, socialName='Bruno',
-                    certificateWithSocialName=False
+        user = User(name='Joao do Teste', ra=19003315, year=YEAR_ENUM._3,
+                    course=DegreeEnum.ECM, email="bruno@bruno.com"
                     )
 
         expectedAttributes = [
-            {'Name': 'name', 'Value': 'Joao Do Teste'},
-            {'Name': 'custom:cpfRne', 'Value': '93523844070'},
+            {'Name': 'custom:name', 'Value': 'Joao Do Teste'},
             {'Name': 'custom:ra', 'Value': '19003315'},
-            {'Name': 'email', 'Value': 'bruno@bruno.com'},
-            {'Name': 'custom:accessLevel', 'Value': ACCESS_LEVEL.ADMIN.value},
-            {'Name': 'custom:role', 'Value': ROLE.PROFESSOR.value},
-            {'Name': 'custom:acceptedTerms', 'Value': 'True'},
-            {'Name': 'custom:acceptedNotific', 'Value': 'True'},
-            {'Name': 'custom:socialName', 'Value': 'Bruno'},
-            {'Name': 'custom:certWithSocialName', 'Value': 'False'}
+            {'Name': 'custom:email', 'Value': 'bruno@bruno.com'},
+            {'Name': 'custom:year', 'Value': YEAR_ENUM._3},
+            {'Name': 'custom:course', 'Value': DegreeEnum.ECM},
         ]
+
 
         userCognitoDto = CognitoUserDTO.fromKeyValuePair(expectedAttributes)
         userParsed = userCognitoDto.toEntity()
         assert user == userParsed
-        assert user.certificateWithSocialName == userParsed.certificateWithSocialName
-        assert user.socialName == userParsed.socialName
-        assert user.acceptedNotifications == userParsed.acceptedNotifications
-
 
 
